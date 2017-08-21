@@ -4,6 +4,7 @@ import auth from './auth'
 import passwordReset from './password-reset'
 import question from './question'
 import survey from './survey'
+import member from './member'
 
 const router = new Router()
 
@@ -35,5 +36,6 @@ router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
 router.use('/questions', question)
 router.use('/surveys', survey)
+router.use('/members', member)
 
 export default router
