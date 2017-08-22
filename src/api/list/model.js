@@ -12,7 +12,7 @@ const listSchema = new Schema({
   },
   members: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Member'
     }]
 }, {
