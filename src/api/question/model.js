@@ -1,16 +1,31 @@
 import mongoose, { Schema } from 'mongoose'
 
 const questionSchema = new Schema({
- text: {
+  text: {
     type: String
   },
+
   type: {
     type: String
   },
+
   required: {
     type: Boolean
   },
-  tags: [String]
+
+  items: [
+    {
+      id: Schema.Types.ObjectId,
+      orderNo : Number,
+      value: String,
+    }
+  ],
+
+  hasComment: Boolean,
+
+  commentLabel: String,
+
+  tags: [String],
 }, {
   timestamps: true
 })
@@ -23,6 +38,9 @@ questionSchema.methods = {
       text: this.text,
       type: this.type,
       required: this.required,
+      items: this.items,
+      hasComment: this.hasComment,
+      commentLabel: this.commentLabel,
       tags: this.tags,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
