@@ -6,6 +6,7 @@ import question from './question'
 import survey from './survey'
 import member from './member'
 import list from './list'
+import answer from './answer'
 
 const router = new Router()
 
@@ -39,5 +40,6 @@ router.use('/questions', question)
 router.use('/surveys', survey)
 router.use('/members', member)
 router.use('/lists', list)
+router.use('/answers', answer)
 
 export default router
