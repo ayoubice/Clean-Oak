@@ -13,7 +13,7 @@ beforeEach(async () => {
 test('POST /members 201', async () => {
   const { status, body } = await request(app())
     .post('/')
-    .send({ id: 'test', name: 'test', pic: 'test', email: 'test', labels: 'test' })
+    .send({ id: 'test', name: 'test', position: 'test', pic: 'test', email: 'test', labels: 'test' })
   expect(status).toBe(201)
   expect(typeof body).toEqual('object')
   expect(body.id).toEqual('test')
@@ -47,12 +47,13 @@ test('GET /members/:id 404', async () => {
 test('PUT /members/:id 200', async () => {
   const { status, body } = await request(app())
     .put(`/${member.id}`)
-    .send({ id: 'test', name: 'test', pic: 'test', email: 'test', labels: 'test' })
+    .send({ id: 'test', name: 'test', position: 'test', pic: 'test', email: 'test', labels: 'test' })
   expect(status).toBe(200)
   expect(typeof body).toEqual('object')
   expect(body.id).toEqual(member.id)
   expect(body.id).toEqual('test')
   expect(body.name).toEqual('test')
+  expect(body.position).toEqual('test')
   expect(body.pic).toEqual('test')
   expect(body.email).toEqual('test')
   expect(body.labels).toEqual('test')
@@ -61,7 +62,7 @@ test('PUT /members/:id 200', async () => {
 test('PUT /members/:id 404', async () => {
   const { status } = await request(app())
     .put('/123456789098765432123456')
-    .send({ id: 'test', name: 'test', pic: 'test', email: 'test', labels: 'test' })
+    .send({ id: 'test', name: 'test', position: 'test', pic: 'test', email: 'test', labels: 'test' })
   expect(status).toBe(404)
 })
 

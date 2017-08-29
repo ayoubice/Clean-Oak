@@ -6,7 +6,7 @@ import { schema } from './model'
 export Member, { schema } from './model'
 
 const router = new Router()
-const { id, firstname, pic, email, labels } = schema.tree
+const { id, name, position, pic, email, labels } = schema.tree
 
 /**
  * @api {post} /members Create member
@@ -22,7 +22,7 @@ const { id, firstname, pic, email, labels } = schema.tree
  * @apiError 404 Member not found.
  */
 router.post('/',
-  body({ id, firstname, pic, email, labels }),
+  body({ id, name, position, pic, email, labels }),
   create)
 
 /**
@@ -62,7 +62,7 @@ router.get('/:id',
  * @apiError 404 Member not found.
  */
 router.put('/:id',
-  body({ id, firstname, pic, email, labels }),
+  body({ id, name, position, pic, email, labels }),
   update)
 
 /**

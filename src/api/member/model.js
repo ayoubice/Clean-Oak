@@ -1,9 +1,12 @@
 import mongoose, { Schema } from 'mongoose'
 
 const memberSchema = new Schema({
-  firstname: {
+  name: {
     type: String,
     required: true,
+  },
+  position: {
+    type: String
   },
   pic: {
     type: String
@@ -25,6 +28,7 @@ memberSchema.methods = {
       // simple view
       id: this.id,
       name: this.name,
+      position: this.position,
       pic: this.pic,
       email: this.email,
       labels: this.labels,

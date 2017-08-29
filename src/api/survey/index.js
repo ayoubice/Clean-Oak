@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, send, update, destroy } from './controller'
 import { schema } from './model'
 export Survey, { schema } from './model'
 
 const router = new Router()
-const { name, description, elements, status } = schema.tree
+const { name, description, elements, status, list } = schema.tree
 
 /**
  * @api {post} /surveys Create survey
@@ -21,7 +21,7 @@ const { name, description, elements, status } = schema.tree
  * @apiError 404 Survey not found.
  */
 router.post('/',
-  body({ name, description, elements, status }),
+  body({ name, description, elements, status, list }),
   create)
 
 /**
@@ -48,6 +48,18 @@ router.get('/:id',
   show)
 
 /**
+ * @api {get} /surveys/:id/email Send the survery to members
+ * @apiName SendSurvey
+ * @apiGroup Survey
+ * @apiSuccess {Object} survey Survey's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 Survey not found.
+ */
+router.get('/:id/email',
+  send)
+
+
+/**
  * @api {put} /surveys/:id Update survey
  * @apiName UpdateSurvey
  * @apiGroup Survey
@@ -60,7 +72,7 @@ router.get('/:id',
  * @apiError 404 Survey not found.
  */
 router.put('/:id',
-  body({ name, description, elements, status }),
+  body({ description, elements, status, list }),
   update)
 
 /**

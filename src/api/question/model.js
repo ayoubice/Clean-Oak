@@ -1,6 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
 const questionSchema = new Schema({
+  alias: {
+    type: String
+  },
+
   text: {
     type: String
   },
@@ -35,6 +39,7 @@ questionSchema.methods = {
     const view = {
       // simple view
       id: this.id,
+      text: this.alias,
       text: this.text,
       type: this.type,
       required: this.required,

@@ -5,14 +5,16 @@ const listSchema = new Schema({
     type: String,
     required:true
   },
+
   status: {
     type: String,
     enum: ['active','inactive','deleted'],
     default: 'active'
   },
+
   members: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Member'
     }]
 }, {
