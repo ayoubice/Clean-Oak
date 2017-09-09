@@ -1,12 +1,13 @@
 import mongoose, { Schema } from 'mongoose'
+import { schema as elementSchema } from '../question/model.js'
 
 const answerSchema = new Schema({
   value: {
     type: String
   },
 
-  value: {
-    comment: String
+  comment: {
+    type: String
   },
 
   survey: {
@@ -14,19 +15,16 @@ const answerSchema = new Schema({
       ref: 'Survey'
   },
 
-  question: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Question'
-  },
+  question: elementSchema,
 
   memberEvaluated: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Member'
+      id: mongoose.Schema.Types.ObjectId,
+      name : String
   },
 
   memberAsked: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Member'
+      id: mongoose.Schema.Types.ObjectId,
+      name : String
   },
 }, {
   timestamps: true
