@@ -20,10 +20,10 @@ const surveySchema = new Schema({
     enum : ['Draft','Sent','Terminate']
   },
 
-  list : {
+  list : [{
       name: String,
       members : [memberSchema],
-  },
+  }],
 
 }, {
   timestamps: true

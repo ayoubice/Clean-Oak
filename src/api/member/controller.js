@@ -3,7 +3,9 @@ import { success, notFound } from '../../services/response/'
 import { Member } from '.'
 
 export const create = ({ bodymen: { body } }, res, next) =>
+
   Member.create(body)
+    .then((member) => member.storePicture(body, member))
     .then((member) => member.view(true))
     .then(success(res, 201))
     .catch(next)
@@ -32,6 +34,7 @@ export const update = ({ bodymen: { body }, params }, res, next) =>
 export const destroy = ({ params }, res, next) =>
   Member.findById(params.id)
     .then(notFound(res))
+    .then((member) => member ? member.removeMembersFromLists(): null)
     .then((member) => member ? member.remove() : null)
     .then(success(res, 204))
     .catch(next)
