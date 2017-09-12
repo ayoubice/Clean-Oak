@@ -24,7 +24,7 @@ export const show = ({ params }, res, next) =>
 export const update = ({ bodymen: { body }, params }, res, next) =>
   Question.findById(params.id)
     .then(notFound(res))
-    .then((question) => question ? _.merge(question, body).save() : null)
+    .then((question) => question ? Question.findOneAndUpdate({ '_id': params.id}, body,{ new: true }) : null)
     .then((question) => question ? question.view(true) : null)
     .then(success(res))
     .catch(next)

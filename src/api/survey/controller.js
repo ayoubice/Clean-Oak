@@ -35,7 +35,7 @@ export const send = ({ params }, res, next) =>
 export const update = ({ body, params }, res, next) =>
   Survey.findById(params.id)
     .then(notFound(res))
-    .then((survey) => survey ? _.merge(survey, body).save() : null)
+    .then((survey) => survey ? Survey.findOneAndUpdate({ '_id': params.id}, body,{ new: true }) : null)
     .then((survey) => survey ? survey.view(true) : null)
     .then(success(res))
     .catch(next)

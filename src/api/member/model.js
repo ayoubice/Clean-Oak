@@ -57,9 +57,7 @@ memberSchema.methods = {
         if (err)
             console.log(err);
         else {
-            console.log('no err');
             if(data.length > 0 ) {
-              console.log('data.length > 0');
               for (var i = 0;i<data.length;i++){
                 List.update(
                   { '_id': data[i]._id },
@@ -68,7 +66,6 @@ memberSchema.methods = {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log('Success updating', success);
                         return member;
                     }
                   });
@@ -81,7 +78,6 @@ memberSchema.methods = {
 
     });
     return member;
-    console.log('out');
   }
 
 }
