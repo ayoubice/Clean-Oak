@@ -24,7 +24,7 @@ export const show = ({ params }, res, next) =>
 export const update = ({ bodymen: { body }, params }, res, next) =>
   List.findById(params.id)
     .then(notFound(res))
-    .then((list) => list ? _.merge(list, body).save() : null)
+    .then((list) => list ? List.findOneAndUpdate({ '_id': params.id}, body,{ new: true }) : null)
     .then((list) => list ? list.view(true) : null)
     .then(success(res))
     .catch(next)
