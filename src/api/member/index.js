@@ -5,6 +5,8 @@ import { create, index, show, update, destroy } from './controller'
 import { schema } from './model'
 export Member, { schema } from './model'
 
+var querymen = require('querymen');
+
 const router = new Router()
 const { id, name, position, picture,fileExt, email, labels } = schema.tree
 
@@ -34,7 +36,12 @@ router.post('/',
  * @apiError {Object} 400 Some parameters may contain invalid values.
  */
 router.get('/',
-  query(),
+  querymen.middleware({
+	  labels: {
+	    type: String,
+	    paths: ['labels']
+	  }
+	}), 
   index)
 
 /**
