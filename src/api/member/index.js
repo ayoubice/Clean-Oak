@@ -40,6 +40,11 @@ router.get('/',
 	  labels: {
 	    type: String,
 	    paths: ['labels']
+	  },
+	  ids: {
+	    type: [String],
+	    paths: ['_id'],
+	    operator: '$in'
 	  }
 	}), 
   index)
