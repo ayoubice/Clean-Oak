@@ -6,7 +6,7 @@ import { schema } from './model'
 export Survey, { schema } from './model'
 
 const router = new Router()
-const { name, description, elements, status, list } = schema.tree
+const { name, type, description, subject, text, elements, status, list } = schema.tree
 
 /**
  * @api {post} /surveys Create survey
@@ -21,7 +21,7 @@ const { name, description, elements, status, list } = schema.tree
  * @apiError 404 Survey not found.
  */
 router.post('/',
-  body({ name, description, elements, status, list }),
+  body({ name, type, description, subject, text, elements, status, list }),
   create)
 
 /**
@@ -72,7 +72,7 @@ router.get('/:id/email',
  * @apiError 404 Survey not found.
  */
 router.put('/:id',
-  body({ description, elements, status, list }),
+  body({ name, type, description, subject, text, elements, status, list }),
   update)
 
 /**

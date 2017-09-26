@@ -11,13 +11,13 @@ export const create = ({ body } , res, next) =>
     .catch(next)
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  Survey.find(query, select, cursor)
+  Survey.find(query, select, cursor).fill('answers')
     .then((surveys) => surveys.map((survey) => survey.view()))
     .then(success(res))
     .catch(next)
 
 export const show = ({ params }, res, next) =>
-  Survey.findById(params.id)
+  Survey.findById(params.id).fill('answers')
     .then(notFound(res))
     .then((survey) => survey ? survey.view() : null)
     .then(success(res))
