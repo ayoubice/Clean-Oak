@@ -53,13 +53,25 @@ const surveySchema = new Schema({
   status: {
     type: String,
     default: 'Draft',
-    enum : ['Draft','Sending','Sent','Done']
+    enum : ['Draft','Sending','Sent','Done','Closed']
   },
 
   list : [{
       name: String,
       members : [memberSchema],
   }],
+  respondents : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Member'
+  },
+  sent : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Member'
+  },
+  notSent : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Member'
+  },
 
 }, {
   timestamps: true
@@ -78,6 +90,8 @@ surveySchema.fill('answers', function(callback){
         .exec(callback)
 });
 
+
+
 surveySchema.methods = {
   view (full) {
     const view = {
@@ -91,6 +105,8 @@ surveySchema.methods = {
       elements: this.elements,
       status: this.status,
       list: this.list,
+      respondents: this.respondents,
+      sent: this.sent,
       answers: this.answers ? this.answers : [],
       createdAt: this.createdAt,
       updatedAt: this.updatedAt

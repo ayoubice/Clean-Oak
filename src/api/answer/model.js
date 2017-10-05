@@ -66,9 +66,15 @@ const answerSchema = new Schema({
         type: String
       },
 
+      incognito: {
+        type: Boolean,
+        default: true
+      },
+
       survey: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Survey'
+          ref: 'Survey',
+          required: true
       },
 
       evaluated: Object,
@@ -83,6 +89,17 @@ const answerSchema = new Schema({
 /*answerSchema.add({
   evaluated: memberSchema 
 })*/
+
+answerSchema.pre('save', function(next) {
+  if (this.incognito == true) {
+    if (this.asked) {
+      this.asked.name = 'unknown'
+      this.asked.email = 'unknown'
+    }
+    next()
+      
+  }     
+});
 
 answerSchema.methods = {
   view (full) {

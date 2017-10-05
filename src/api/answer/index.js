@@ -8,7 +8,7 @@ export Answer, { schema } from './model'
 var querymen = require('querymen');
 
 const router = new Router()
-const { id, value, comment, survey, question, evaluated, asked } = schema.tree
+const { id, value, comment, survey, question, evaluated, asked, incognito } = schema.tree
 
 /**
  * @api {post} /answers Create answer
@@ -24,7 +24,7 @@ const { id, value, comment, survey, question, evaluated, asked } = schema.tree
  * @apiError 404 Answer not found.
  */
 router.post('/',
-  body({ id, value, comment, survey, question, evaluated, asked }),
+  body({ id, value, comment, survey, question, evaluated, asked, incognito }),
   create)
 
 /**
@@ -52,6 +52,11 @@ router.get('/',
 	  asked: {
 	    type: String,
 	    paths: ['asked.id']
+	  },
+	  askedMembers: {
+	    type: [String],
+	    paths: ['asked.id'],
+	    operator: '$in'
 	  },
 	  ids: {
 	    type: [String],
@@ -95,7 +100,7 @@ router.get('/:id',
  * @apiError 404 Answer not found.
  */
 router.put('/:id',
-  body({ id, value, comment, survey, question, evaluated, asked }),
+  body({ id, value, comment, survey, question, evaluated, asked, incognito }),
   update)
 
 /**

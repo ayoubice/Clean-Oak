@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+
+<h1 style="
+    text-align: center;
+    font-family: tahoma;
+    color: #7c7272;margin: 5px;
+">Survey summary</h1>
+
+<div class="chart-container" style="position: relative;     height: 500px;
+    width: 100%;">
+    <canvas style="width:830px" id="test"></canvas>
+</div>
+    
+<script>
+
+var colors = ['#ff4444','#ffbb33','#00C851','#33b5e5','#2BBBAD','#aa66cc','#4285F4','#3F729B','#4B515D','#4caf50','#4caf50','#4caf50','#4caf50'];
+
+var options = {
+        elements: {
+          arc: {
+            borderWidth: 1,
+            borderColor : '#fff'
+          },
+
+
+        },
+        legend: {
+          display: false,
+          position: 'bottom',
+          labels: {
+            fontColor: '#000'
+          }
+        },
+        animation: {
+            duration : 0
+        },
+        responsive: false,
+        maintainAspectRatio: false,
+        scales: {
+            <% if (survey_type != 's_360') %> 
+            yAxes: [{
+                ticks: {
+                
+                       min: 0,
+                       max: 100,
+                       callback: function(value){return value+ "%"}
+                    },  
+                    scaleLabel: {
+                       display: true,
+                       labelString: "Percentage"
+                    }
+            }],
+            <% endif %>
+            xAxes: [{
+                ticks: {
+                        fontSize: 9,
+                        callback: function(value, index, values) {
+                            var pt = value.length > 31 ? '...' : ''
+                            return value.substring(0,31) + pt;
+                        }
+                       
+                    }
+                
+            }]
+        }
+      };
+
+
+var data = {
+    datasets: [{
+        data: [<% for item in survey_summary_data %>'<$ item $>',<% endfor %>],
+        backgroundColor:colors
+    }],
+    labels: [<% for item in survey_summary_labels %>'<$ item $>',<% endfor %>]
+};
+var ctx = document.getElementById("test").getContext('2d');
+var myDoughnutChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+});
+
+
+</script>
+
+
+</body>
+</html>

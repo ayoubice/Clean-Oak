@@ -26,7 +26,7 @@ export const show = ({ params }, res, next) =>
 export const send = ({ params }, res, next) =>
   Survey.findById(params.id)
     .then(notFound(res))
-    .then((survey) => sendSurveyMail(survey))
+    .then((survey) => sendSurveyMail(survey, res, next))
     .then((response) => response ? res.status(response.statusCode).end() : null)
     //.then((survey) => survey ? _.merge(survey, {status:'Sent'}).save() : null)
     .catch(next)
@@ -35,7 +35,7 @@ export const send = ({ params }, res, next) =>
 export const update = ({ body, params }, res, next) =>
   Survey.findById(params.id)
     .then(notFound(res))
-    .then((survey) => survey ? Survey.findOneAndUpdate({ '_id': params.id}, body,{ new: true }) : null)
+    .then((survey) => survey ? Survey.findOneAndUpdate({ '_id': params.id}, body,{ new: true, validateBeforeUpdate: false }) : null)
     .then((survey) => survey ? survey.view(true) : null)
     .then(success(res))
     .catch(next)

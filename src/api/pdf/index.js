@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { login } from './controller'
-import { password, master } from '../../services/passport'
+import { middleware as query } from 'querymen'
+import { generate } from './controller'
 
 const router = new Router()
+var querymen = require('querymen');
 
 /**
  * @api {post} /auth Authenticate
@@ -15,9 +16,23 @@ const router = new Router()
  * @apiSuccess (Success 201) {Object} user Current user's data.
  * @apiError 401 Master access only or invalid credentials.
  */
-router.post('/',
-  master(),
-  password(),
-  login)
+router.get('/regular',
+  querymen.middleware({
+	  survey: {
+	    type: String,
+	    paths: ['survey']
+	  },
+	  survey_summary_labels: {
+	    type: String,
+	  },
+	  survey_summary_data: {
+	    type: String,
+	  },
+	  survey_type: {
+	    type: String,
+	  }
+
+	}),
+  generate)
 
 export default router

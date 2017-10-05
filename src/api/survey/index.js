@@ -6,7 +6,7 @@ import { schema } from './model'
 export Survey, { schema } from './model'
 
 const router = new Router()
-const { name, type, description, subject, text, elements, status, list } = schema.tree
+const { name, type, description, subject, text, elements, status, list, respondents, sent, notSent } = schema.tree
 
 /**
  * @api {post} /surveys Create survey
@@ -21,7 +21,7 @@ const { name, type, description, subject, text, elements, status, list } = schem
  * @apiError 404 Survey not found.
  */
 router.post('/',
-  body({ name, type, description, subject, text, elements, status, list }),
+  body({ name, type, description, subject, text, elements, status, list, respondents, sent, notSent }),
   create)
 
 /**
@@ -55,7 +55,7 @@ router.get('/:id',
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Survey not found.
  */
-router.get('/:id/email',
+router.get('/:id/send',
   send)
 
 
@@ -72,7 +72,7 @@ router.get('/:id/email',
  * @apiError 404 Survey not found.
  */
 router.put('/:id',
-  body({ name, type, description, subject, text, elements, status, list }),
+  body({ name, type, description, subject, text, elements, status, list, respondents, sent, notSent }),
   update)
 
 /**
