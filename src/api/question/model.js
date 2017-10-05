@@ -27,9 +27,14 @@ const questionSchema = new Schema({
 
   hasComment: Boolean,
 
+  commentIsRequired: {
+    type: Boolean,
+    default: false
+  },
+
   commentLabel: String,
 
-  tags: [String],
+  tag: String,
 }, {
   timestamps: true
 })
@@ -45,8 +50,9 @@ questionSchema.methods = {
       required: this.required,
       items: this.items,
       hasComment: this.hasComment,
+      commentIsRequired: this.commentIsRequired,
       commentLabel: this.commentLabel,
-      tags: this.tags,
+      tag: this.tag,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

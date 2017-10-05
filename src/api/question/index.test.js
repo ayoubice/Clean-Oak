@@ -13,14 +13,14 @@ beforeEach(async () => {
 test('POST /questions 201', async () => {
   const { status, body } = await request(app())
     .post('/')
-    .send({ id: 'test', text: 'test', type: 'test', required: 'test', tags: 'test' })
+    .send({ id: 'test', text: 'test', type: 'test', required: 'test', tag: 'test' })
   expect(status).toBe(201)
   expect(typeof body).toEqual('object')
   expect(body.id).toEqual('test')
   expect(body.text).toEqual('test')
   expect(body.type).toEqual('test')
   expect(body.required).toEqual('test')
-  expect(body.tags).toEqual('test')
+  expect(body.tag).toEqual('test')
 })
 
 test('GET /questions 200', async () => {
@@ -47,7 +47,7 @@ test('GET /questions/:id 404', async () => {
 test('PUT /questions/:id 200', async () => {
   const { status, body } = await request(app())
     .put(`/${question.id}`)
-    .send({ id: 'test', text: 'test', type: 'test', required: 'test', tags: 'test' })
+    .send({ id: 'test', text: 'test', type: 'test', required: 'test', tag: 'test' })
   expect(status).toBe(200)
   expect(typeof body).toEqual('object')
   expect(body.id).toEqual(question.id)
@@ -55,13 +55,13 @@ test('PUT /questions/:id 200', async () => {
   expect(body.text).toEqual('test')
   expect(body.type).toEqual('test')
   expect(body.required).toEqual('test')
-  expect(body.tags).toEqual('test')
+  expect(body.tag).toEqual('test')
 })
 
 test('PUT /questions/:id 404', async () => {
   const { status } = await request(app())
     .put('/123456789098765432123456')
-    .send({ id: 'test', text: 'test', type: 'test', required: 'test', tags: 'test' })
+    .send({ id: 'test', text: 'test', type: 'test', required: 'test', tag: 'test' })
   expect(status).toBe(404)
 })
 

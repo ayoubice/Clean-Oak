@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, update, destroy, analyze } from './controller'
 import { schema } from './model'
 export Answer, { schema } from './model'
 
+var querymen = require('querymen');
+
 const router = new Router()
-const { id, value, comment, survey, question, memberEvaluated, memberAsked } = schema.tree
+const { id, value, comment, survey, question, evaluated, asked, incognito } = schema.tree
 
 /**
  * @api {post} /answers Create answer
@@ -22,7 +24,7 @@ const { id, value, comment, survey, question, memberEvaluated, memberAsked } = s
  * @apiError 404 Answer not found.
  */
 router.post('/',
-  body({ id, value, comment, survey, question, memberEvaluated, memberAsked }),
+  body({ id, value, comment, survey, question, evaluated, asked, incognito }),
   create)
 
 /**
@@ -34,8 +36,44 @@ router.post('/',
  * @apiError {Object} 400 Some parameters may contain invalid values.
  */
 router.get('/',
-  query(),
+  querymen.middleware({
+	  survey: {
+	    type: String,
+	    paths: ['survey']
+	  },
+	  question: {
+	    type: String,
+	    paths: ['question._id']
+	  },
+	  evaluated: {
+	    type: String,
+	    paths: ['evaluated.id']
+	  },
+	  asked: {
+	    type: String,
+	    paths: ['asked.id']
+	  },
+	  askedMembers: {
+	    type: [String],
+	    paths: ['asked.id'],
+	    operator: '$in'
+	  },
+	  ids: {
+	    type: [String],
+	    paths: ['_id'],
+	    operator: '$in'
+	  }
+	}), 
   index)
+
+router.get('/analyze',
+  querymen.middleware({
+	  survey: {
+	    type: String,
+	    paths: ['survey']
+	  }
+	}),
+  analyze)
 
 /**
  * @api {get} /answers/:id Retrieve answer
@@ -62,7 +100,7 @@ router.get('/:id',
  * @apiError 404 Answer not found.
  */
 router.put('/:id',
-  body({ id, value, comment, survey, question, memberEvaluated, memberAsked }),
+  body({ id, value, comment, survey, question, evaluated, asked, incognito }),
   update)
 
 /**
@@ -74,5 +112,7 @@ router.put('/:id',
  */
 router.delete('/:id',
   destroy)
+
+
 
 export default router

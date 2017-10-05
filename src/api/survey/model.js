@@ -1,6 +1,28 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose-fill'
 import { schema as elementSchema } from '../question/model.js'
-import { schema as memberSchema } from '../member/model.js'
+import { Answer } from '../answer/'
+//import { schema as memberSchema } from '../member/model.js'
+
+const memberSchema = new Schema({
+  id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Member'
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  position: {
+    type: String
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  labels: {
+    type: [String]
+  }
+},{ _id : false })
 
 const surveySchema = new Schema({
   name: {
@@ -8,7 +30,21 @@ const surveySchema = new Schema({
     required: true
   },
 
+  type: {
+    type: String,
+    default: 's_360',
+    enum : ['s_360','s_regular','s_incognito']
+  },
+
   description: {
+    type: String
+  },
+
+  subject: {
+    type: String
+  },
+
+  text: {
     type: String
   },
 
@@ -17,17 +53,44 @@ const surveySchema = new Schema({
   status: {
     type: String,
     default: 'Draft',
-    enum : ['Draft','Sent','Terminate']
+    enum : ['Draft','Sending','Sent','Done','Closed']
   },
 
   list : [{
       name: String,
       members : [memberSchema],
   }],
+  respondents : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Member'
+  },
+  sent : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Member'
+  },
+  notSent : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Member'
+  },
 
 }, {
   timestamps: true
-})
+}, {
+  toObject: {
+    virtuals: true
+  },
+  toJSON: {
+    virtuals: true 
+  }
+});
+
+surveySchema.fill('answers', function(callback){
+    Answer
+        .find({survey: this.id})
+        .exec(callback)
+});
+
+
 
 surveySchema.methods = {
   view (full) {
@@ -35,10 +98,16 @@ surveySchema.methods = {
       // simple view
       id: this.id,
       name: this.name,
+      type: this.type,
+      subject: this.subject,
       description: this.description,
+      text: this.text,
       elements: this.elements,
       status: this.status,
       list: this.list,
+      respondents: this.respondents,
+      sent: this.sent,
+      answers: this.answers ? this.answers : [],
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
