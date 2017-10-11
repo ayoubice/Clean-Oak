@@ -7,7 +7,7 @@ import survey from './survey'
 import member from './member'
 import list from './list'
 import answer from './answer'
-import pdf from './pdf'
+import file from './file'
 
 const router = new Router()
 
@@ -42,6 +42,6 @@ router.use('/surveys', survey)
 router.use('/members', member)
 router.use('/lists', list)
 router.use('/answers', answer)
-router.use('/pdf', pdf)
+router.use('/files', file)
 
 export default router
