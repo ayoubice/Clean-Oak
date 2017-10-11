@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
-import { generate } from './controller'
+import { generatePdf, generateXlsx } from './controller'
 
 const router = new Router()
 var querymen = require('querymen');
@@ -16,7 +16,7 @@ var querymen = require('querymen');
  * @apiSuccess (Success 201) {Object} user Current user's data.
  * @apiError 401 Master access only or invalid credentials.
  */
-router.get('/regular',
+router.get('/pdf',
   querymen.middleware({
 	  survey: {
 	    type: String,
@@ -33,6 +33,15 @@ router.get('/regular',
 	  }
 
 	}),
-  generate)
+  generatePdf)
+
+router.get('/xlsx',
+  querymen.middleware({
+	  survey: {
+	    type: String,
+	    paths: ['survey']
+	  }
+	}),
+  generateXlsx)
 
 export default router

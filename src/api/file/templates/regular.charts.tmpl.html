@@ -60,6 +60,13 @@ var options = {
                     }
             }],
             <% endif %>
+            <% if (survey_type == 's_360') %> 
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    }
+            }],
+            <% endif %>
             xAxes: [{
                 ticks: {
                         fontSize: 9,

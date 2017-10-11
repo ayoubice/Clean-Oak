@@ -95,10 +95,9 @@ answerSchema.pre('save', function(next) {
     if (this.asked) {
       this.asked.name = 'unknown'
       this.asked.email = 'unknown'
-    }
-    next()
-      
-  }     
+    }  
+  }    
+  next() 
 });
 
 answerSchema.methods = {
